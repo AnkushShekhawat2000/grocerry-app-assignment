@@ -1,14 +1,4 @@
-// import React from 'react'
 
-// function SplashPage() {
-//   return (
-//     <div>
-//       splash screen
-//     </div>
-//   )
-// }
-
-// export default SplashPage
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

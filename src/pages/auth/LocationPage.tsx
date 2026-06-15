@@ -1,21 +1,8 @@
-// import React from 'react'
-
-// function LocationPage() {
-//   return (
-//     <div>
-//       Loaction page
-//     </div>
-//   )
-// }
-
-// export default LocationPage
 
 
-
-
-
-import React, { useState } from "react";
+import  { useState } from "react";
 import locationImage from "../../assets/locationImg.png"
+import { useNavigate } from "react-router-dom";
 
 const zones = [
   "Banasree",
@@ -34,19 +21,17 @@ const areas = [
 export default function LocationPage() {
   const [zone, setZone] = useState("Banasree");
   const [area, setArea] = useState("");
+    const navigate = useNavigate();
 
   return (
     <div className="h-screen max-w-[390px] mx-auto bg-[#C4C4C4]   bg-[#FEFEFE8C]
     backdrop-blur-[90px]
     rounded-3xl flex flex-col">
-      {/* Content */}
       <div className="flex-1 px-6 pt-4">
-        {/* Back Button */}
         <button className="w-8 h-8 flex items-center justify-center">
           ←
         </button>
 
-        {/* Image */}
         <div className="flex justify-center mt-8">
          <img
   src={locationImage}
@@ -55,20 +40,16 @@ export default function LocationPage() {
 />
         </div>
 
-        {/* Title */}
         <h1 className="text-center mt-8 text-[20px] font-semibold text-[#1c1c1e]">
           Select Your Location
         </h1>
 
-        {/* Description */}
         <p className="text-center text-[#8e8e93] text-[15px] leading-6 mt-3 px-4">
           Switch on your location to stay in tune
           with what's happening in your area
         </p>
 
-        {/* Form */}
         <div className="mt-20">
-          {/* Zone */}
           <div>
             <p className="text-[14px] text-[#7b7b7b] mb-3">
               Your Zone
@@ -106,7 +87,6 @@ export default function LocationPage() {
             </div>
           </div>
 
-          {/* Area */}
           <div className="mt-8">
             <p className="text-[14px] text-[#7b7b7b] mb-3">
               Your Area
@@ -150,9 +130,9 @@ export default function LocationPage() {
         </div>
       </div>
 
-      {/* Submit Button */}
       <div className="px-4 pb-12">
         <button
+         onClick={() => navigate("/home")}
           className="
             w-full
             h-[54px]

@@ -1,28 +1,16 @@
-// import React from 'react'
-
-// function OtpPage() {
-//   return (
-//     <div>
-//        otp page - - - -.....
-//     </div>
-//   )
-// }
-
-// export default OtpPage
-
-
 
 
 
 import { useState } from "react";
 import KeyboardImage from "../../assets/keypadImg.png"
+import { useNavigate } from "react-router-dom";
 
 export default function OtpPage() {
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState("123");
+  const navigate = useNavigate();
 
   return (
     <div className="h-screen max-w-[390px] mx-auto bg-white flex flex-col overflow-hidden">
-      {/* Header */}
       <div className="px-4 pt-4">
         <button className="text-2xl text-black">
           ←
@@ -32,7 +20,6 @@ export default function OtpPage() {
           Enter your 4-digit code
         </h1>
 
-        {/* OTP Field */}
         <div className="mt-8">
           <p className="text-xs text-gray-500 mb-2">
             Code
@@ -57,9 +44,9 @@ export default function OtpPage() {
         </div>
       </div>
 
-      {/* Middle Area */}
       <div className="flex-1 relative">
         <button
+        onClick={() => navigate("/location")}
           className="
             absolute
             right-5
@@ -93,7 +80,6 @@ export default function OtpPage() {
         </button>
       </div>
 
-      {/* Keyboard Image */}
       <div className="w-full">
         <img
           src={KeyboardImage}

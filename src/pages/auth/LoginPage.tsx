@@ -17,17 +17,13 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#FCFCFC] flex justify-center">
       <div className="w-full max-w-[375px] min-h-screen px-5 py-10 flex flex-col justify-between">
         
-        {/* Top Section */}
         <div>
-          {/* Logo */}
           <div className="flex justify-center mb-16">
-            {/* Yahan apna image laga dena */}
             <div className="w-12 h-12 flex items-center justify-center text-4xl">
                <img src={carrotIcon}/>
             </div>
           </div>
 
-          {/* Heading */}
           <div className="mb-10">
             <h1 className="text-[30px] font-semibold text-[#181725]">
               Login
@@ -40,7 +36,6 @@ export default function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit}>
-            {/* Email */}
             <div className="mb-8">
               <label className="block text-[14px] font-medium text-[#7C7C7C] mb-3">
                 Email
@@ -64,7 +59,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-[14px] font-medium text-[#7C7C7C] mb-3">
                 Password
@@ -96,7 +90,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Forgot Password */}
             <div className="flex justify-end mt-5">
               <button
                 type="button"
@@ -106,7 +99,6 @@ export default function LoginPage() {
               </button>
             </div>
 
-            {/* Login Button */}
             <button
               type="submit"
               className="
@@ -126,7 +118,6 @@ export default function LoginPage() {
           </form>
         </div>
 
-        {/* Footer */}
         <div className="text-center pb-4">
           <span className="text-[15px] text-[#181725] font-medium">
             Don't have an account?

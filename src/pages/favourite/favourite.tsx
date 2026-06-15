@@ -45,24 +45,20 @@ export default function Favourite() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      {/* Header */}
       <div className="border-b py-5">
         <h1 className="text-center text-2xl font-bold">
           Favourite
         </h1>
       </div>
 
-      {/* List */}
       <div className="flex-1">
         {items.map((item) => (
           <div
             key={item.id}
             className="flex items-center gap-4 border-b px-4 py-6"
           >
-            {/* Image Placeholder */}
             <div className="h-16 w-16 shrink-0 rounded-xl bg-gray-100" />
 
-            {/* Info */}
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900">
                 {item.name}
@@ -87,7 +83,6 @@ export default function Favourite() {
         ))}
       </div>
 
-      {/* Bottom Button */}
       <div className="sticky bottom-0 bg-white p-4">
         <button className="h-14 w-full rounded-2xl bg-[#53B175] text-lg font-semibold text-white">
           Add All To Cart

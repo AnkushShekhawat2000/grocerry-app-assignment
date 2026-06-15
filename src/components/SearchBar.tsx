@@ -1,10 +1,6 @@
-// 
 
 
-
-
-import searchIcon from "../../assets/searchIcon.png";
-// import filterIcon from "../../assets/filterIcon.png";
+import searchIcon from "../assets/searchIcon.png";
 
 export default function SearchBar() {
   return (
@@ -35,16 +31,7 @@ export default function SearchBar() {
           "
         />
 
-        {/* <button
-          type="button"
-          className="absolute right-4 top-1/2 -translate-y-1/2"
-        >
-          <img
-            src={filterIcon}
-            alt="Filter"
-            className="w-5 h-5"
-          />
-        </button> */}
+   
       </div>
     </div>
   );

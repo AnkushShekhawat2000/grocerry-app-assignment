@@ -9,8 +9,8 @@ import LoginPage from "./pages/auth/LoginPage";
 import SingupPage from "./pages/auth/SingupPage";
 import DashBoardPage from "./pages/home/DashBoardPage";
 import ExplorePage from "./pages/explore/ExplorePage.tsx";
-import Cart  from "./pages/cart/cart.tsx";
-import Favourite  from "./pages/favourite/favourite.tsx";
+import Cart from "./pages/cart/cart.tsx";
+import Favourite from "./pages/favourite/favourite.tsx";
 import MainLayout from "./components/MainLayout.tsx";
 import ProductDetailPage from "./pages/product/productDetailPage.tsx";
 import ProductOrderSuccessPage from "./pages/product/productOrderSuccessPage.tsx";
@@ -18,52 +18,33 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        {/* <Routes>
-            <Route path="/" element={<SplashPage/>}/>
-            <Route path="/onboarding" element={<OnboardingPage/>}/>
-            <Route path="/home" element={<DashBoardPage/>}/>
-            <Route path="/explore" element={<ExplorePage/>}/>
-            <Route path="/signin" element={<SingIn/>}/>
-            <Route path="/loginwithNumber" element={<MobileNumberPage/>}/>
-            <Route path="/verification" element={<OtpPage/>}/>
-            <Route path="/location" element={<LocationPage/>}/>
-            <Route path="/login" element={<LoginPage/>}/>
-            <Route path="/login" element={<SingupPage/>}/>
-             <Route path="/cart" element={<Cart/>}/>
-              <Route path="/favourite" element={<Favourite/>}/>
-
-            
-        </Routes> */}
+      
 
         <Routes>
-  {/* AUTH */}
-  <Route path="/" element={<SplashPage />} />
-  <Route path="/onboarding" element={<OnboardingPage />} />
-  <Route path="/signin" element={<SingIn />} />
-  <Route path="/loginwithNumber" element={<MobileNumberPage />} />
-  <Route path="/verification" element={<OtpPage />} />
-  <Route path="/location" element={<LocationPage />} />
-  <Route path="/login" element={<LoginPage />} />
-  <Route path="/signup" element={<SingupPage />} />
+       
+          <Route path="/" element={<SplashPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/signin" element={<SingIn />} />
+          <Route path="/loginwithNumber" element={<MobileNumberPage />} />
+          <Route path="/verification" element={<OtpPage />} />
+          <Route path="/location" element={<LocationPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SingupPage />} />
 
-  {/* APP */}
- <Route element={<MainLayout />}>
-  <Route path="/home" element={<DashBoardPage />} />
-  <Route path="/explore" element={<ExplorePage />} />
-  <Route path="/cart" element={<Cart />} />
-  <Route path="/favourite" element={<Favourite />} />
-    <Route
-    path="/product/:id"
-    element={<ProductDetailPage/>}
-  />
-
-  <Route
-  path="/order-success"
-  element={<ProductOrderSuccessPage />}
-/>
-  
-</Route>
-</Routes>
+      
+          <Route element={<MainLayout />}>
+            <Route path="/home" element={<DashBoardPage />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/favourite" element={<Favourite />} />
+            <Route path="/product/:id" element={<ProductDetailPage />} />
+             <Route path="/acount" element={<h1>Account Page</h1>} />
+            <Route
+              path="/order-success"
+              element={<ProductOrderSuccessPage />}
+            />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );

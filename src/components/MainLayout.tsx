@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import BottomNavbar from "../components/common/BottomNavbar/bottomNavbar";
+import BottomNavbar from "./common/bottomNavbar";
 
 export default function MainLayout() {
   return (

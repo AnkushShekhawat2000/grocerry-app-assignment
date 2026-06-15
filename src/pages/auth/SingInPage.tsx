@@ -1,36 +1,12 @@
-// import React from 'react'
-
-// function SingIn() {
-//   return (
-//     <div>
-//       sign In with number page
-//     </div>
-//   )
-// }
-
-// export default SingIn;
-
-
-
-
-
-
-
-
-
-import basketImg from "../../assets/basketIcon.png"
+import { useNavigate } from "react-router-dom";
+import basketImg from "../../assets/basketIcon.png";
 import earthIcon from "../../assets/earthIcon.png";
-// import googleIcon from "../../assets/google.svg";
-// import facebookIcon from "../../assets/facebook.svg";
 
-const  SignIn = () =>  {
+const SignIn = () => {
+  const navigate = useNavigate();
   return (
-   
-
     <div className="min-h-screen bg-white">
       <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col lg:flex-row">
-        
-       
         <section className="h-[50%] lg:h-screen lg:w-1/2">
           <img
             src={basketImg}
@@ -44,11 +20,8 @@ const  SignIn = () =>  {
           />
         </section>
 
-      
         <section
-        
-
-            className="
+          className="
     flex
     flex-col
     px-5
@@ -80,12 +53,12 @@ const  SignIn = () =>  {
             with nectar
           </h1>
 
-   
           <div className="mt-8 border-b border-[#E2E2E2] pb-4">
             <div className="flex items-center gap-3">
-             <img className="w-6 h-6" src={earthIcon}/>
+              <img className="w-6 h-6" src={earthIcon} />
 
               <input
+                onFocus={() => navigate("/loginwithNumber")}
                 placeholder="+880"
                 className="
                   w-full
@@ -109,6 +82,7 @@ const  SignIn = () =>  {
           </p>
 
           <button
+          onClick={() => navigate("/signup")}
             className="
               mt-9
               h-[64px]
@@ -119,7 +93,7 @@ const  SignIn = () =>  {
               font-medium
             "
           >
-            Continue with Google
+            Continue with Email
           </button>
 
           <button
@@ -139,6 +113,6 @@ const  SignIn = () =>  {
       </div>
     </div>
   );
-}
+};
 
 export default SignIn;
