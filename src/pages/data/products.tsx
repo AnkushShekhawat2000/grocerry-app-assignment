@@ -1,0 +1,36 @@
+export const PRODUCTS = [
+  {
+    id: "1",
+    name: "Organic Bananas",
+    unit: "7pcs, Priceg",
+    price: 4.99,
+    image: "https://via.placeholder.com/120",
+    isExclusive: true,
+    isBestSelling: false,
+  },
+  {
+    id: "2",
+    name: "Red Apple",
+    unit: "1kg, Priceg",
+    price: 4.99,
+    image: "https://via.placeholder.com/120",
+    isExclusive: true,
+    isBestSelling: true,
+  },
+  {
+    id: "3",
+    name: "Bell Pepper Red",
+    unit: "1kg, Priceg",
+    price: 4.99,
+    image: "https://via.placeholder.com/120",
+    isExclusive: false,
+    isBestSelling: true,
+  },
+  {
+    id: "4",
+    name: "Broiler Chicken",
+    unit: "1kg, Priceg",
+    price: 4.99,
+    image: "https://via.placeholder.com/120",
+  },
+];
