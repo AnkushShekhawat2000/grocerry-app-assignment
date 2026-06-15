@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCartStore } from "../../store/cartStore";
+import { useFavouriteStore } from "../../store/favouriteStore";
 
 import backArrow from "../../assets/back arrow.png";
 import shareProductIcon from "../../assets/shareIconProduct.png";
@@ -7,13 +9,27 @@ import favProductIcon from "../../assets/addFavIcon.png";
 import rightArrow from "../../assets/roghtArrow.png";
 import downArrow from "../../assets/downarraow.png";
 import starGroup from "../../assets/stargroup.png";
+import { useProductStore } from "../../store/productStore";
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const { state: product } = useLocation();
+  const product = useProductStore((state) =>
+    state.products.find((p) => p.id === Number(id)),
+  );
 
   const [quantity, setQuantity] = useState(1);
+
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const addFavourite = useFavouriteStore((state) => state.addFavourite);
+
+  const removeFavourite = useFavouriteStore((state) => state.removeFavourite);
+
+  const isFavourite = useFavouriteStore((state) =>
+    state.favouriteIds.includes(product.id),
+  );
 
   if (!product) {
     return (
@@ -27,9 +43,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* TOP SECTION */}
       <div className="rounded-b-[32px] bg-[#F2F3F2]">
-        {/* HEADER */}
         <div className="flex items-center justify-between px-6 pt-6">
           <button onClick={() => navigate(-1)}>
             <img
@@ -73,11 +87,21 @@ export default function ProductDetailPage() {
             <p className="mt-1 text-[16px] text-[#7C7C7C]">{product.unit}</p>
           </div>
 
-          <button>
+          <button
+            onClick={() => {
+              if (isFavourite) {
+                removeFavourite(product.id);
+              } else {
+                addFavourite(product.id);
+              }
+            }}
+          >
             <img
               src={favProductIcon}
               alt="favourite"
-              className="h-6 w-6 object-contain"
+              className={`h-6 w-6 object-contain ${
+                isFavourite ? "opacity-100" : "opacity-50"
+              }`}
             />
           </button>
         </div>
@@ -162,18 +186,25 @@ export default function ProductDetailPage() {
         </div>
 
         <button
+          onClick={() => {
+            addToCart({
+              ...product,
+              quantity,
+            });
+
+            navigate("/cart");
+          }}
           className="
-            mb-8
-            mt-6
-            h-[67px]
-            w-full
-            rounded-[19px]
-            bg-[#53B175]
-            text-[18px]
-            font-semibold
-            text-white
-            shadow-sm
-          "
+  mb-8
+  mt-6
+  h-[67px]
+  w-full
+  rounded-[19px]
+  bg-[#53B175]
+  text-[18px]
+  font-semibold
+  text-white
+  "
         >
           Add To Basket
         </button>

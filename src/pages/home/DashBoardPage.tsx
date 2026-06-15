@@ -1,29 +1,31 @@
 import Header from "../../components/Header.tsx";
-import SearchBar from "../../components/SearchBar.tsx";
+import SearchBar from "../../components/common/SearchBar.tsx";
 import Banner from "../../components/Banner.tsx";
 import SectionHeader from "../../components/SectionHeader.tsx";
-import ProductCard from "../../components/ProductCard.tsx";
-import BottomNav from "../../components/BottomNav.tsx";
-import { PRODUCTS } from "../data/products.tsx";
-
-const groceryGroups = [
-  {
-    name: "Pulses",
-    image: "https://via.placeholder.com/60",
-    bg: "bg-[#F8EBDD]",
-  },
-  {
-    name: "Rice",
-    image: "https://via.placeholder.com/60",
-    bg: "bg-[#EAF4EA]",
-  },
-];
+import ProductCard from "../../components/common/ProductCard.tsx";
+import BottomNav from "../../components/common/BottomNav.tsx";
+import { useProductStore } from "../../store/productStore.ts";
+import { CATEGORIES } from "../../data/categories.ts";
 
 export default function DashBoardPage() {
-  const exclusive = PRODUCTS.filter((item) => item.isExclusive);
 
-  const bestSelling = PRODUCTS.filter((item) => item.isBestSelling);
 
+  const products =
+  useProductStore(
+    (state) => state.products
+  );
+
+  const exclusive =
+  products.filter(
+    (item) => item.isExclusive
+  );
+
+  const bestSelling =
+  products.filter(
+    (item) => item.isBestSelling
+  );
+
+  
   return (
     <div className="min-h-screen bg-white">
       <div className="w-full max-w-[390px] lg:max-w-[1280px] mx-auto px-5 lg:px-8 pb-24">
@@ -67,7 +69,7 @@ export default function DashBoardPage() {
           />
 
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-none">
-            {groceryGroups.map((group) => (
+            {CATEGORIES.map((group) => (
               <div
                 key={group.name}
                 className={`
@@ -98,7 +100,7 @@ border border-[#E2E2E2]
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            {PRODUCTS.slice(0, 4).map((item) => (
+            {products.slice(0, 4).map((item) => (
               <ProductCard key={item.id} product={item} />
             ))}
           </div>

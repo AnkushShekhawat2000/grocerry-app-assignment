@@ -18,10 +18,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-      
-
         <Routes>
-       
           <Route path="/" element={<SplashPage />} />
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/signin" element={<SingIn />} />
@@ -31,14 +28,13 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SingupPage />} />
 
-      
           <Route element={<MainLayout />}>
             <Route path="/home" element={<DashBoardPage />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/favourite" element={<Favourite />} />
             <Route path="/product/:id" element={<ProductDetailPage />} />
-             <Route path="/acount" element={<h1>Account Page</h1>} />
+            <Route path="/account" element={<h1>Account Page</h1>} />
             <Route
               path="/order-success"
               element={<ProductOrderSuccessPage />}

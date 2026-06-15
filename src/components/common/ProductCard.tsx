@@ -1,15 +1,22 @@
 
 
+
 import { useNavigate } from "react-router-dom";
+import { useCartStore } from "../../store/cartStore";
+import type { Product } from "../../types/product";
 
 type Props = {
-  product: any;
+  product: Product;
 };
 
 export default function ProductCard({
   product,
 }: Props) {
   const navigate = useNavigate();
+
+  const addToCart = useCartStore(
+    (state) => state.addToCart
+  );
 
   return (
     <div
@@ -32,10 +39,6 @@ export default function ProductCard({
         {product.name}
       </h3>
 
-      <p className="text-xs text-[#7C7C7C] mt-1">
-        {product.unit}
-      </p>
-
       <div className="flex items-center justify-between mt-4">
         <span className="font-bold text-lg">
           ${product.price}
@@ -44,7 +47,7 @@ export default function ProductCard({
         <button
           onClick={(e) => {
             e.stopPropagation();
-        
+            addToCart(product);
           }}
           className="w-10 h-10 rounded-xl bg-[#53B175] text-white"
         >

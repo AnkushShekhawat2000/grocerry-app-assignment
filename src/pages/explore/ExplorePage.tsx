@@ -1,93 +1,10 @@
 import React, { useState } from "react";
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/common/ProductCard";
 import searchIcon from "../../assets/searchIcon.png";
 import filterIcon from "../../assets/filterIcon.png";
-
+import { CATEGORIES } from "../../data/categories";
+import { useProductStore } from "../../store/productStore";
 export default function ExplorePage() {
-  const categories = [
-    {
-      id: 1,
-      title: "Fresh Fruits & Vegetables",
-      image: "...",
-      color: "bg-[#EEF7F1] border-[#53B175]",
-    },
-    {
-      id: 2,
-      title: "Cooking Oil & Ghee",
-      image: "...",
-      color: "bg-[#FFF6EB] border-[#F8A44C]",
-    },
-    {
-      id: 3,
-      title: "Meat & Fish",
-      image: "...",
-      color: "bg-[#FDE8E4] border-[#F7A593]",
-    },
-    {
-      id: 4,
-      title: "Bakery & Snacks",
-      image: "...",
-      color: "bg-[#F4EBF7] border-[#B7A6D8]",
-    },
-    {
-      id: 5,
-      title: "Dairy & Eggs",
-      image: "...",
-      color: "bg-[#FFF8E5] border-[#F9C74F]",
-    },
-    {
-      id: 6,
-      title: "Beverages",
-      image: "...",
-      color: "bg-[#E8F3FF] border-[#4A90E2]",
-    },
-  ];
-
-  const products = [
-    {
-      id: 1,
-      name: "Organic Bananas",
-      category: "Fresh Fruits",
-      price: 4.99,
-      image: "https://via.placeholder.com/300",
-    },
-    {
-      id: 2,
-      name: "Red Apple",
-      category: "Fresh Fruits",
-      price: 3.99,
-      image: "https://via.placeholder.com/300",
-    },
-    {
-      id: 3,
-      name: "Beef Bone",
-      category: "Meat & Fish",
-      price: 12.99,
-      image: "https://via.placeholder.com/300",
-    },
-    {
-      id: 4,
-      name: "Broiler Chicken",
-      category: "Meat & Fish",
-      price: 9.99,
-      image: "https://via.placeholder.com/300",
-    },
-    {
-      id: 5,
-      name: "Fresh Milk",
-      category: "Dairy & Eggs",
-      price: 5.99,
-      image: "https://via.placeholder.com/300",
-    },
-    {
-      id: 6,
-      name: "Egg Pack",
-      category: "Dairy & Eggs",
-      price: 6.99,
-      image: "https://via.placeholder.com/300",
-    },
-  ];
-
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -96,16 +13,26 @@ export default function ExplorePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
+  const products = useProductStore((state) => state.products);
+
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
-    const matchesCategory = selectedCategory
-      ? product.category === selectedCategory
-      : true;
+    const matchesCategory =
+      !selectedCategory || product.category === selectedCategory;
 
-    return matchesSearch && matchesCategory;
+    const matchesFilterCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(product.filterCategory);
+
+    const matchesBrand =
+      selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+
+    return (
+      matchesSearch && matchesCategory && matchesFilterCategory && matchesBrand
+    );
   });
 
   const showCategories = !selectedCategory && searchQuery.trim() === "";
@@ -233,7 +160,6 @@ export default function ExplorePage() {
 
           <div className="border-b border-[#E2E2E2] my-6" />
 
-          {/* Brand */}
           <div>
             <h3
               className="
@@ -379,7 +305,6 @@ export default function ExplorePage() {
                 )}
               </div>
 
-              {/* Mobile Filter Button */}
               <button
                 onClick={() => setShowFilters(true)}
                 className="
@@ -409,46 +334,49 @@ export default function ExplorePage() {
         pb-20
       "
             >
-              {categories.map((cat) => (
+              {CATEGORIES.map((cat) => (
                 <div
                   key={cat.id}
-                  onClick={() => setSelectedCategory(cat.title)}
-                  className={`
-            ${cat.color}
-            border
-            rounded-[18px]
-            h-[190px]
-            cursor-pointer
-            flex
-            flex-col
-            items-center
-            justify-center
-            transition-all
-            hover:scale-[1.02]
-          `}
+                  onClick={() => setSelectedCategory(cat.name)}
+                  style={{
+                    backgroundColor: cat.bgColor,
+                  }}
+                  className="
+      border
+      border-[#E2E2E2]
+      rounded-[18px]
+      h-[190px]
+      cursor-pointer
+      flex
+      flex-col
+      items-center
+      justify-center
+      transition-all
+      hover:scale-[1.02]
+    "
                 >
                   <img
                     src={cat.image}
-                    alt={cat.title}
+                    alt={cat.name}
                     className="
-              w-[85px]
-              h-[85px]
-              object-cover
-            "
+        w-[85px]
+        h-[85px]
+        object-contain
+      "
                   />
 
                   <h3
                     className="
-              mt-5
-              text-center
-              text-[15px]
-              font-semibold
-              leading-5
-              text-[#181725]
-              px-3
-            "
+        mt-5
+        text-center
+        text-[15px]
+        font-semibold
+        leading-5
+        text-[#181725]
+        px-3
+      "
                   >
-                    {cat.title}
+                    {cat.name}
                   </h3>
                 </div>
               ))}

@@ -1,4 +1,5 @@
 
+
 export default function Banner() {
   return (
     <div className="mt-5">
@@ -14,8 +15,13 @@ export default function Banner() {
           </p>
         </div>
 
+        {/* Banner Image */}
         <div className="absolute right-0 top-0 h-full w-[48%]">
-         
+          <img
+            src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800"
+            alt="Fresh Vegetables"
+            className="h-full w-full object-cover"
+          />
         </div>
       </div>
 

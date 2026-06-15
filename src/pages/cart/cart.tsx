@@ -1,74 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-type CartItem = {
-  id: number;
-  name: string;
-  unit: string;
-  price: number;
-  quantity: number;
-};
-
-const initialItems: CartItem[] = [
-  {
-    id: 1,
-    name: "Bell Pepper Red",
-    unit: "1kg",
-    price: 4.99,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Egg Chicken Red",
-    unit: "4pcs",
-    price: 1.99,
-    quantity: 1,
-  },
-  {
-    id: 3,
-    name: "Organic Bananas",
-    unit: "12kg",
-    price: 3,
-    quantity: 1,
-  },
-  {
-    id: 4,
-    name: "Ginger",
-    unit: "250gm",
-    price: 2.99,
-    quantity: 1,
-  },
-];
+import { useCartStore } from "../../store/cartStore";
 
 export default function Cart() {
-  const [items, setItems] = useState(initialItems);
-  const [openCheckout, setOpenCheckout] = useState(false);
   const navigate = useNavigate();
 
-  const increaseQty = (id: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
-      ),
-    );
-  };
+  const [openCheckout, setOpenCheckout] = useState(false);
 
-  const decreaseQty = (id: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity - 1),
-            }
-          : item,
-      ),
-    );
-  };
+  const items = useCartStore((state) => state.items);
 
-  const removeItem = (id: number) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  const removeItem = useCartStore((state) => state.removeFromCart);
+
+  const increaseQty = useCartStore((state) => state.increaseQuantity);
+
+  const decreaseQty = useCartStore((state) => state.decreaseQuantity);
+
+  const clearCart = useCartStore((state) => state.clearCart);
 
   const subtotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -79,39 +26,112 @@ export default function Cart() {
 
   const grandTotal = subtotal + deliveryCost;
 
+  if (items.length === 0) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center px-5">
+        <h2 className="text-3xl font-bold text-[#181725]">
+          Your Cart is Empty
+        </h2>
+
+        <p className="mt-3 text-center text-[#7C7C7C]">
+          Add some products to continue shopping
+        </p>
+
+        <button
+          onClick={() => navigate("/")}
+          className="mt-6 rounded-2xl bg-[#53B175] px-6 py-3 font-semibold text-white"
+        >
+          Continue Shopping
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6">
-      <h1 className="border-b pb-4 text-center text-2xl font-bold">My Cart</h1>
+    <div className="mx-auto min-h-screen bg-white max-w-[390px] lg:max-w-7xl lg:px-6">
+      <h1
+        className="
+    h-[84px]
+    flex
+    items-center
+    justify-center
+    text-[20px]
+    font-semibold
+    text-[#181725]
+    border-b
+    border-[#E2E2E2]
+  "
+      >
+        My Cart
+      </h1>
 
       <div className="mt-6 flex flex-col gap-8 lg:flex-row">
+        {/* Cart Items */}
         <div className="flex-1">
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-4 border-b py-6"
+              className="
+flex items-center
+gap-4
+px-6
+py-7
+border-b
+border-[#E2E2E2]
+"
             >
-              <div className="h-20 w-20 rounded-xl bg-gray-100" />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="h-[70px] w-[70px] object-contai"
+              />
 
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900">{item.name}</h3>
+                <h3 className="text-[16px] font-semibold text-[#181725]">
+                  {item.name}
+                </h3>
 
-                <p className="text-sm text-gray-400">{item.unit}, Price</p>
+                <p className="mt-1 text-[14px] text-[#7C7C7C]">
+                  {item.category}
+                </p>
 
                 <div className="mt-4 flex items-center gap-3">
                   <button
                     onClick={() => decreaseQty(item.id)}
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border"
+                    className="
+flex
+h-[45px]
+w-[45px]
+items-center
+justify-center
+rounded-[17px]
+border
+border-[#E2E2E2]
+text-[#B3B3B3]
+text-xl
+"
                   >
                     -
                   </button>
 
-                  <span className="w-4 text-center font-medium">
+                  <span className="w-5 text-center font-medium">
                     {item.quantity}
                   </span>
 
                   <button
                     onClick={() => increaseQty(item.id)}
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border text-green-600"
+                    className="
+flex
+h-[45px]
+w-[45px]
+items-center
+justify-center
+rounded-[17px]
+border
+border-[#E2E2E2]
+text-[#53B175]
+text-xl
+"
                   >
                     +
                   </button>
@@ -121,163 +141,224 @@ export default function Cart() {
               <div className="flex h-20 flex-col items-end justify-between">
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="text-xl text-gray-400"
+                  className="text-[24px] text-[#B3B3B3]"
                 >
                   ×
                 </button>
 
-                <span className="font-semibold">
-                  ${(item.price * item.quantity).toFixed(2)}
+                <span className="text-[18px] font-semibold text-[#181725]">
+                  ₹{(item.price * item.quantity).toFixed(2)}
                 </span>
               </div>
             </div>
           ))}
         </div>
 
+        {/* Desktop Summary */}
         <div className="hidden w-[320px] shrink-0 lg:block">
-          <div className="rounded-3xl border p-5 shadow-sm">
+          <div
+            className="
+sticky
+top-5
+rounded-[24px]
+border
+border-[#E2E2E2]
+p-6
+bg-white
+"
+          >
             <h2 className="border-b pb-4 text-xl font-bold">Order Summary</h2>
 
             <div className="mt-5 space-y-4">
               <div className="flex justify-between">
-                <span className="text-gray-500">Subtotal</span>
+                <span className="text-[#7C7C7C]">Subtotal</span>
 
-                <span className="font-medium">${subtotal.toFixed(2)}</span>
+                <span className="font-medium">₹{subtotal.toFixed(2)}</span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-gray-500">Delivery Cost</span>
+                <span className="text-[#7C7C7C]">Delivery</span>
 
-                <span className="font-medium">${deliveryCost.toFixed(2)}</span>
+                <span className="font-medium">₹{deliveryCost.toFixed(2)}</span>
               </div>
 
               <div className="border-t pt-4">
                 <div className="flex justify-between">
-                  <span className="font-bold">Grand Total</span>
+                  <span className="font-bold">Total</span>
 
                   <span className="text-2xl font-bold">
-                    ${grandTotal.toFixed(2)}
+                    ₹{grandTotal.toFixed(2)}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 flex gap-2">
-              <input
-                placeholder="Promo Code"
-                className="h-11 flex-1 rounded-xl border px-3 text-sm outline-none"
-              />
+            <button
+              onClick={() => {
+                setOpenCheckout(false);
 
-              <button className="rounded-xl bg-slate-800 px-4 text-white">
-                Apply
-              </button>
-            </div>
-
-            <button className="mt-6 h-14 w-full rounded-2xl bg-[#53B175] font-semibold text-white">
-              Place Order (${grandTotal.toFixed(2)})
+                setTimeout(() => {
+                  clearCart();
+                  navigate("/order-success");
+                }, 500);
+              }}
+              className="mt-6 h-14 w-full rounded-2xl bg-[#53B175] font-semibold text-white"
+            >
+              Place Order
             </button>
           </div>
         </div>
       </div>
 
-      <div className="sticky bottom-4 mt-6 lg:hidden">
+      {/* Mobile Checkout */}
+      <div
+        className="
+    fixed
+    bottom-[90px]
+    left-0
+    right-0
+    px-6
+    z-40
+    lg:hidden
+  "
+      >
         <button
           onClick={() => setOpenCheckout(true)}
-          className="flex h-14 w-full items-center justify-between rounded-2xl bg-[#53B175] px-5 text-white shadow-lg"
+          className="
+h-[67px]
+w-full
+rounded-[19px]
+bg-[#53B175]
+flex
+items-center
+justify-center
+relative
+text-white
+font-semibold
+text-[18px]
+"
         >
           <span className="flex-1 text-center font-semibold">
             Go to Checkout
           </span>
 
-          <span className="rounded-md bg-green-700 px-2 py-1 text-xs">
-            ${subtotal.toFixed(2)}
+          <span
+            className="
+    absolute
+    right-4
+    bg-[#489E67]
+    px-2
+    py-1
+    rounded-[4px]
+    text-[12px]
+  "
+          >
+            ₹{grandTotal.toFixed(2)}
           </span>
         </button>
       </div>
 
       {openCheckout && (
-        <div className="fixed inset-0 z-[9999] bg-black/40 lg:hidden">
+        <div className="fixed inset-0 z-[9999] lg:hidden">
+          {/* Overlay */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 bg-black/40"
             onClick={() => setOpenCheckout(false)}
           />
 
+        
           <div
             className="
       absolute bottom-0 left-0 right-0
-      rounded-t-[30px]
       bg-white
-      px-6
-      pt-6
-      pb-8
+      rounded-t-[30px]
+      px-[25px]
+      pt-[30px]
+      pb-[25px]
       animate-slideUp
       "
           >
-            <div className="flex items-center justify-between border-b pb-5">
-              <h2 className="text-2xl font-semibold">Checkout</h2>
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-[#E2E2E2] pb-6">
+              <h2 className="text-[24px] font-semibold text-[#181725]">
+                Checkout
+              </h2>
 
               <button
                 onClick={() => setOpenCheckout(false)}
-                className="text-2xl"
+                className="text-[26px] text-[#181725]"
               >
                 ×
               </button>
             </div>
 
-            <div className="flex items-center justify-between border-b py-5">
-              <span className="text-[#7C7C7C]">Delivery</span>
+            {/* Delivery */}
+            <div className="flex items-center justify-between border-b border-[#E2E2E2] py-5">
+              <span className="text-[16px] text-[#7C7C7C]">Delivery</span>
 
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Select Method</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[16px] font-medium text-[#181725]">
+                  Select Method
+                </span>
 
-                <span>›</span>
+                <span className="text-xl">›</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between border-b py-5">
-              <span className="text-[#7C7C7C]">Payment</span>
+         
+            <div className="flex items-center justify-between border-b border-[#E2E2E2] py-5">
+              <span className="text-[16px] text-[#7C7C7C]">Payment</span>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <div className="h-5 w-8 rounded bg-blue-500" />
 
-                <span>›</span>
+                <span className="text-xl">›</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between border-b py-5">
-              <span className="text-[#7C7C7C]">Promo Code</span>
+            <div className="flex items-center justify-between border-b border-[#E2E2E2] py-5">
+              <span className="text-[16px] text-[#7C7C7C]">Promo Code</span>
 
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Pick discount</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[16px] font-medium text-[#181725]">
+                  Pick discount
+                </span>
 
-                <span>›</span>
+                <span className="text-xl">›</span>
               </div>
             </div>
 
+            {/* Total */}
             <div className="flex items-center justify-between py-5">
-              <span className="text-[#7C7C7C]">Total Cost</span>
+              <span className="text-[16px] text-[#7C7C7C]">Total Cost</span>
 
-              <div className="flex items-center gap-2">
-                <span className="font-bold">${grandTotal.toFixed(2)}</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[18px] font-bold text-[#181725]">
+                  ${grandTotal.toFixed(2)}
+                </span>
 
-                <span>›</span>
+                <span className="text-xl">›</span>
               </div>
             </div>
 
-            <p className="mb-6 text-xs text-[#7C7C7C]">
+         =
+            <p className="mb-8 text-[14px] leading-5 text-[#7C7C7C]">
               By placing an order you agree to our{" "}
-              <span className="font-semibold text-black">Terms</span> And{" "}
-              <span className="font-semibold text-black">Conditions</span>
+              <span className="font-semibold text-[#181725]">Terms</span> And{" "}
+              <span className="font-semibold text-[#181725]">Conditions</span>
             </p>
 
             <button
-              onClick={() => navigate("/order-success")}
+              onClick={() => {
+                clearCart();
+                navigate("/order-success");
+              }}
               className="
         h-[67px]
         w-full
         rounded-[19px]
         bg-[#53B175]
-        text-lg
+        text-[18px]
         font-semibold
         text-white
         "
